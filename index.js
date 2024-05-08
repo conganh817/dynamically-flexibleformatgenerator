@@ -1,11 +1,28 @@
-function generate(numRows) {
-  const triangle = [];
-  for (let i = 0; i < numRows; i++) {
-    const row = new Array(i + 1).fill(1);
-    for (let j = 1; j < row.length - 1; j++) {
-      row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j];
+const pancakeSort = (arr) => {
+  const flip = (arr, k) => {
+    let i = 0;
+    while (i < k / 2) {
+      [arr[i], arr[k - i]] = [arr[k - i], arr[i]];
+      i++;
     }
-    triangle.push(row);
+  };
+  const findMaxIndex = (arr, n) => {
+    let maxIndex = 0;
+    for (let i = 0; i < n; i++) {
+      if (arr[i] > arr[maxIndex]) {
+        maxIndex = i;
+      }
+    }
+    return maxIndex;
+  };
+  let currentSize = arr.length;
+  while (currentSize > 1) {
+    const maxIndex = findMaxIndex(arr, currentSize);
+    if (maxIndex !== currentSize - 1) {
+      flip(arr, maxIndex);
+      flip(arr, currentSize - 1);
+    }
+    currentSize--;
   }
-  return triangle;
-}
+  return arr;
+};
