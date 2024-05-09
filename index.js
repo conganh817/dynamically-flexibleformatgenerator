@@ -1,28 +1,17 @@
-const pancakeSort = (arr) => {
-  const flip = (arr, k) => {
-    let i = 0;
-    while (i < k / 2) {
-      [arr[i], arr[k - i]] = [arr[k - i], arr[i]];
-      i++;
-    }
-  };
-  const findMaxIndex = (arr, n) => {
-    let maxIndex = 0;
-    for (let i = 0; i < n; i++) {
-      if (arr[i] > arr[maxIndex]) {
-        maxIndex = i;
-      }
-    }
-    return maxIndex;
-  };
-  let currentSize = arr.length;
-  while (currentSize > 1) {
-    const maxIndex = findMaxIndex(arr, currentSize);
-    if (maxIndex !== currentSize - 1) {
-      flip(arr, maxIndex);
-      flip(arr, currentSize - 1);
-    }
-    currentSize--;
+function rotateRight(head, k) {
+  if (!head || k === 0) return head;
+  let length = 1;
+  let tail = head;
+  while (tail.next) {
+    length++;
+    tail = tail.next;
   }
-  return arr;
-};
+  k = k % length;
+  if (k === 0) return head;
+  let newTail = head;
+  for (let i = 1; i < length - k; i++) newTail = newTail.next;
+  const newHead = newTail.next;
+  newTail.next = null;
+  tail.next = head;
+  return newHead;
+}
