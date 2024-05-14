@@ -1,8 +1,20 @@
-function sortedArrayToBST(nums) {
-  if (!nums.length) return null;
-  const mid = Math.floor(nums.length / 2);
-  const root = new TreeNode(nums[mid]);
-  root.left = sortedArrayToBST(nums.slice(0, mid));
-  root.right = sortedArrayToBST(nums.slice(mid + 1));
-  return root;
+function findItinerary(tickets) {
+  const graph = new Map();
+  for (const [from, to] of tickets) {
+    if (!graph.has(from)) graph.set(from, []);
+    graph.get(from).push(to);
+  }
+  for (const destinations of graph.values()) {
+    destinations.sort();
+  }
+  const result = [];
+  dfs("JFK");
+  return result.reverse();
+  function dfs(from) {
+    const destinations = graph.get(from);
+    while (destinations && destinations.length) {
+      dfs(destinations.shift());
+    }
+    result.push(from);
+  }
 }
