@@ -1,20 +1,19 @@
-function findItinerary(tickets) {
-  const graph = new Map();
-  for (const [from, to] of tickets) {
-    if (!graph.has(from)) graph.set(from, []);
-    graph.get(from).push(to);
-  }
-  for (const destinations of graph.values()) {
-    destinations.sort();
-  }
+function combinationSum2(candidates, target) {
+  candidates.sort((a, b) => a - b);
   const result = [];
-  dfs("JFK");
-  return result.reverse();
-  function dfs(from) {
-    const destinations = graph.get(from);
-    while (destinations && destinations.length) {
-      dfs(destinations.shift());
+  backtrack([], 0, 0);
+  return result;
+  function backtrack(combination, start, sum) {
+    if (sum === target) {
+      result.push([...combination]);
+      return;
     }
-    result.push(from);
+    if (sum > target) return;
+    for (let i = start; i < candidates.length; i++) {
+      if (i > start && candidates[i] === candidates[i - 1]) continue;
+      combination.push(candidates[i]);
+      backtrack(combination, i + 1, sum + candidates[i]);
+      combination.pop();
+    }
   }
 }
